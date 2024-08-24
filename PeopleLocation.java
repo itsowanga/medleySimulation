@@ -23,12 +23,12 @@ public class PeopleLocation  { // this is made a separate class so don't have to
 	}
 	
 	//setter
-	public  void setInStadium(boolean in) {
+	public synchronized void setInStadium(boolean in) {
 		inStadium = in;
 	}
 	
 	//getter and setter
-	public boolean getArrived() {
+	public synchronized boolean getArrived() {
 		return arrived;
 	}
 	public void setArrived() {
@@ -36,10 +36,10 @@ public class PeopleLocation  { // this is made a separate class so don't have to
 	}
 
 //getter and setter
-	public GridBlock getLocation() {
+	public synchronized GridBlock getLocation() {
 		return location;
 	}
-	public  void setLocation(GridBlock location) {
+	public synchronized void setLocation(GridBlock location) {
 		this.location = location;
 	}
 

@@ -4,11 +4,13 @@
 
 package medleySimulation;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class GridBlock {
 	
 	private int isOccupied; 
-	
+	private final Lock lock = new ReentrantLock();
 	private final boolean isStart;  //is this a starting block?
 	private int [] coords; // the coordinate of the block.
 	
@@ -30,23 +32,40 @@ public class GridBlock {
 	
 	//Get a block
 	public  boolean get(int threadID) throws InterruptedException {
+		lock.lock();
+		try {
 		if (isOccupied==threadID) return true; //thread Already in this block
 		if (isOccupied>=0) return false; //space is occupied
 		isOccupied= threadID;  //set ID to thread that had block
-		return true;
+		return true;}
+		finally{
+			lock.unlock();
+		}
+
 	}
 		
 	
 	//release a block
 	public  void release() {
+		lock.lock();
+		try{
 		isOccupied= -1;
+		}
+		finally{
+			lock.unlock();
+		}
 	}
 	
 
 	//is a bloc already occupied?
 	public  boolean occupied() {
+		lock.lock();
+		try{
 		if(isOccupied==-1) return false;
-		return true;
+		return true; }
+		finally{
+			lock.unlock();
+		}
 	}
 	
 	
